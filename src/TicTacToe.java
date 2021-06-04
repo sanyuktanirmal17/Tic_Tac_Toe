@@ -56,8 +56,6 @@ class TicTacToe{
                 return "draw";
             }
         }
-  
-       
         System.out.println(
             turn + "'s turn; enter a slot number to place "
             + turn + " in:");
@@ -100,11 +98,6 @@ class TicTacToe{
   
         while (winner == null) {
             int numInput;
-            
-           // Exception handling.
-           // numInput will take input from user like from 1 to 9.
-           // If it is not in range from 1 to 9.
-           // then it will show you an error "Invalid input."
             try {
                 numInput = in.nextInt();
                 if (!(numInput > 0 && numInput <= 9)) {
