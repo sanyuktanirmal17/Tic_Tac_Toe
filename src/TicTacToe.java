@@ -1,25 +1,70 @@
-import java.util.*;
-public class TicTacToe {
+import java.util.Arrays;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
-//	private static final String Char = null;
-	public static char[] board = new char [10];
-	static String turn;
-	public static void createBoard() {
-		for(int i=1; i< board.length; i++)
-			board[i]= ' ';
-	}
-	
-	public static void choosePlay(int player)
-	{
-		char character;
-		if (player == 1) {
-		      character = 'X';
-		    } else {
-		      character = 'O';
-		    }
-		}
-	
-	static void showBoard()
+class TicTacToe{
+    static String[] board;
+    static String turn;
+    static String checkWinner()
+    {
+        for (int a = 0; a < 8; a++) {
+            String line = null;
+  
+            switch (a) {
+            case 0:
+                line = board[0] + board[1] + board[2];
+                break;
+            case 1:
+                line = board[3] + board[4] + board[5];
+                break;
+            case 2:
+                line = board[6] + board[7] + board[8];
+                break;
+            case 3:
+                line = board[0] + board[3] + board[6];
+                break;
+            case 4:
+                line = board[1] + board[4] + board[7];
+                break;
+            case 5:
+                line = board[2] + board[5] + board[8];
+                break;
+            case 6:
+                line = board[0] + board[4] + board[8];
+                break;
+            case 7:
+                line = board[2] + board[4] + board[6];
+                break;
+            }
+            
+            if (line.equals("XXX")) {
+                return "X";
+            }
+              
+            
+            else if (line.equals("OOO")) {
+                return "O";
+            }
+        }
+          
+        for (int a = 0; a < 9; a++) {
+            if (Arrays.asList(board).contains(
+                    String.valueOf(a + 1))) {
+                break;
+            }
+            else if (a == 8) {
+                return "draw";
+            }
+        }
+  
+       
+        System.out.println(
+            turn + "'s turn; enter a slot number to place "
+            + turn + " in:");
+        return null;
+    }
+      
+    static void printBoard()
     {
         System.out.println("|---|---|---|");
         System.out.println("| " + board[0] + " | "
@@ -35,29 +80,33 @@ public class TicTacToe {
                            + " |");
         System.out.println("|---|---|---|");
     }
-	
-
-	public static void main(String args[])
-	{
-		Scanner sc = new Scanner(System.in);
+  
+    public static void main(String args[])
+    {
+        Scanner in = new Scanner(System.in);
+        board = new String[9];
         turn = "X";
-		String winner = null;
-		
-		for(int i =0; i<board.length; i++)
-		{
-//			board[i]= char.valueOf(i+1);
-		}
-		int player;
-		createBoard();
-		System.out.println("game created");
-		choosePlay(0);
-		System.out.println("Enter character 'X' and 'O'");
-		showBoard();
-		
-		while (winner == null) {
+        String winner = null;
+  
+        for (int a = 0; a < 9; a++) {
+            board[a] = String.valueOf(a + 1);
+        }
+  
+        System.out.println("Welcome to 3x3 Tic Tac Toe.");
+        printBoard();
+  
+        System.out.println(
+            "X will play first. Enter a slot number to place X in:");
+  
+        while (winner == null) {
             int numInput;
+            
+           // Exception handling.
+           // numInput will take input from user like from 1 to 9.
+           // If it is not in range from 1 to 9.
+           // then it will show you an error "Invalid input."
             try {
-                numInput =sc.nextInt();
+                numInput = in.nextInt();
                 if (!(numInput > 0 && numInput <= 9)) {
                     System.out.println(
                         "Invalid input; re-enter slot number:");
@@ -69,9 +118,37 @@ public class TicTacToe {
                     "Invalid input; re-enter slot number:");
                 continue;
             }
-		}
-	 }
+             
+            if (board[numInput - 1].equals(
+                    String.valueOf(numInput))) {
+                board[numInput - 1] = turn;
+  
+                if (turn.equals("X")) {
+                    turn = "O";
+                }
+                else {
+                    turn = "X";
+                }
+  
+                printBoard();
+                winner = checkWinner();
+            }
+            else {
+                System.out.println(
+                    "Slot already taken; re-enter slot number:");
+            }
+        }
+        
+        
+        if (winner.equalsIgnoreCase("draw")) {
+            System.out.println(
+                "It's a draw! Thanks for playing.");
+        }
+        
+        else {
+            System.out.println(
+                "Congratulations! " + winner
+                + "'s have won! Thanks for playing.");
+        }
+    }
 }
-	
-
-	
